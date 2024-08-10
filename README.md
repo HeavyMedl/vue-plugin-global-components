@@ -10,41 +10,25 @@ npm i @heavymedl/vite-plugin-global-components
 
 ## Usage
 
-Import the plugin into your app's isomorphic entry point (`main.mts`).
-
-Pass a directory path containing Vue components to be registered as global to [Glob Import](https://vitejs.dev/guide/features.html#glob-import).
-
-```typescript
-const globDynamicImportObj = import.meta.glob('../GlobalComponents/**/*.vue');
-```
-
-You'll pass this object containing dynamic import references to `.use`, which becomes available to the plugin within its `install` hook.
-
-```typescript
-app.use(
-  GlobalComponentPlugin,
-  import.meta.glob('../GlobalComponents/**/*.vue')
-);
-```
-
-The plugin loops through the object keys and registers global async components on your Vue app instance with `app.component(defineAsyncComponent(...))`.
-
-Complete example:
+Import the plugin into your app's isomorphic entry point, then pass a directory path containing Vue components to be registered as global to [Glob Import](https://vitejs.dev/guide/features.html#glob-import).
 
 ```typescript
 import { createSSRApp } from 'vue';
-import GlobalComponentPlugin from 'vue-plugin-global-components';
 import App from './App.vue';
+
+import GlobalComponentsPlugin from '@heavymedl/vue-plugin-global-components';
 
 export default function createApp(props) {
   const app = createSSRApp(App, props);
   app.use(
-    GlobalComponentPlugin,
+    GlobalComponentsPlugin,
     import.meta.glob('../GlobalComponents/**/*.vue')
   );
   return { app };
 }
 ```
+
+The plugin loops through the object keys and registers global async components on your Vue app instance with `app.component(defineAsyncComponent(...))`.
 
 ## Theory
 
@@ -101,13 +85,13 @@ We can use `vue3-lazy-hydration` to conditionally omit/delay client-side hydrati
 ```typescript
 import { createSSRApp } from 'vue';
 import { LazyHydrationWrapper } from 'vue3-lazy-hydration';
-import GlobalComponentPlugin from 'vue-plugin-global-components';
+import GlobalComponentsPlugin from '@heavymedl/vue-plugin-global-components';
 import App from './App.vue';
 
 export default function createApp(props) {
   const app = createSSRApp(App, props);
   app.use(
-    GlobalComponentPlugin,
+    GlobalComponentsPlugin,
     import.meta.glob('../GlobalComponents/**/*.vue')
   );
   app.component('LazyHydrationWrapper', LazyHydrationWrapper);
@@ -138,4 +122,4 @@ npm run dev
 
 This should open the test application in `test/app`. 
 
-The test application is a basic Vue app that uses `vue-plugin-global-components` to register global async components contained within `test/app/src/components`.
+The test application is a basic Vue app that uses `@heavymedl/vue-plugin-global-components` to register global async components contained within `test/app/src/components`.
