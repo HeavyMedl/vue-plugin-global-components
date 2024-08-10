@@ -1,6 +1,6 @@
 {
   "name": "@heavymedl/vue-plugin-global-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue plugin that uses Vite's Glob Import feature to register global async components for Vue applications",
   "repository": {
     "type": "git",
